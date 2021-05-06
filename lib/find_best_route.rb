@@ -6,6 +6,10 @@ class FindBestRoute
     start&.targets&.each do |node|
       result[:route] = [start.name, node[:target].name]
       result[:cost] = node[:cost]
+      node[:target]&.targets&.each do |nodee|
+        result[:route] << nodee[:target].name
+        result[:cost] += node[:cost]
+      end
     end
     result
   end
