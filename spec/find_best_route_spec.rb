@@ -21,12 +21,23 @@ describe FindBestRoute do
     expect(FindBestRoute.execute(start: a, destination: b)).to eq({ route: %w[A B], cost: 1 })
   end
 
-  it 'can return the cost between 2 nodes' do
+  it 'can return the cost between 3 nodes' do
     a = Node.new('A')
     b = Node.new('B')
     c = Node.new('C')
     a.targets << { target: b, cost: 1 }
     b.targets << { target: c, cost: 1 }
     expect(FindBestRoute.execute(start: a, destination: c)).to eq({ route: %w[A B C], cost: 2 })
+  end
+
+  it 'can return the cost between 4 nodes' do
+    a = Node.new('A')
+    b = Node.new('B')
+    c = Node.new('C')
+    d = Node.new('D')
+    a.targets << { target: b, cost: 1 }
+    b.targets << { target: c, cost: 1 }
+    c.targets << { target: d, cost: 2 }
+    expect(FindBestRoute.execute(start: a, destination: d)).to eq({ route: %w[A B C D], cost: 4 })
   end
 end

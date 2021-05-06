@@ -3,13 +3,21 @@
 class FindBestRoute
   def self.execute(start:, destination:)
     result = { route: [], cost: nil }
-    start&.targets&.each do |node|
-      result[:route] = [start.name, node[:target].name]
-      result[:cost] = node[:cost]
-      node[:target]&.targets&.each do |nodee|
-        result[:route] << nodee[:target].name
-        result[:cost] += node[:cost]
-      end
+    return result if start.nil? || destination.nil?
+
+    result[:route] << start.name
+    search_nodes(start&.targets, result, destination.name)
+  end
+
+  def self.search_nodes(nodes, result, destination_name)
+    return result if result[:route][-1] == destination_name
+
+    nodes&.each do |node|
+      return result if node[:target].nil?
+
+      result[:route] << node[:target].name
+      result[:cost].nil? ? result[:cost] = node[:cost] : result[:cost] += node[:cost]
+      search_nodes(node[:target].targets, result, destination_name) if node[:target].targets
     end
     result
   end
