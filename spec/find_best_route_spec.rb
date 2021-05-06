@@ -40,4 +40,12 @@ describe FindBestRoute do
     c.targets << { target: d, cost: 2 }
     expect(FindBestRoute.execute(start: a, destination: d)).to eq({ route: %w[A B C D], cost: 4 })
   end
+
+  it 'can handle when destination is not found' do
+    a = Node.new('A')
+    b = Node.new('B')
+    c = Node.new('C')
+    a.targets << { target: b, cost: 1 }
+    expect(FindBestRoute.execute(start: a, destination: c)).to eq({ route: [], cost: nil })
+  end
 end

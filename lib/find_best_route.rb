@@ -6,7 +6,13 @@ class FindBestRoute
     return result if start.nil? || destination.nil?
 
     result[:route] << start.name
-    search_nodes(start&.targets, result, destination.name)
+    result = search_nodes(start&.targets, result, destination.name)
+
+    if result[:route][-1] == destination.name
+      result
+    else
+      { route: [], cost: nil }
+    end
   end
 
   def self.search_nodes(nodes, result, destination_name)
